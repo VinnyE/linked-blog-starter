@@ -108,21 +108,11 @@ export async function getStaticProps({ params }: Params) {
 
 export async function getStaticPaths() {
   const posts = await getAllPosts(["slug"]);
-
-  const generateSlug = (title) =>
-    title
-      .toLowerCase()
-      .replace(/\s+/g, "-")
-      .replace(/[^\w-]+/g, "");
-
   return {
     paths: posts.map((post) => {
-      const postTitle = post.slug.split(path.sep).join(" ");
-      const slug = generateSlug(postTitle);
-
       return {
         params: {
-          slug: post.slug.split(path.sep).map(() => slug),
+          slug: post.slug.split(path.sep),
         },
       };
     }),
